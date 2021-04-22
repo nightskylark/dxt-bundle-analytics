@@ -1,5 +1,5 @@
 import gulp from 'gulp';
-import path from 'path';
+import path, { resolve } from 'path';
 import widgets from './widgetList.js';
 import through from 'through2';
 import webpack from 'webpack-stream';
@@ -7,6 +7,7 @@ import rename from 'gulp-rename';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import StatoscopeWebpackPlugin from '@statoscope/ui-webpack'
 import jsonFormat from 'gulp-json-format';
+import fs from 'fs';
 
 let __dirname = path.resolve()
 
@@ -64,11 +65,7 @@ function processWidget(widget){
 }
 
 function processWidgets(){
-    let result = [];
-    for(let widget in widgets.all){
-        result.push(processWidget(widget));        
-    }
-    return result;
+    return [...widgets.all].map(processWidget);    
 }
 
 function prettyPrintJSONFiles(){
@@ -80,7 +77,22 @@ function prettyPrintJSONFiles(){
     );
 }
 
+async function buildMetadata(){
+    let sizes = await Promise.all([...widgets.all].map(x=>{
+        return new Promise((resolve, reject)=>{
+            let pth = path.resolve(__dirname,`generated/reports/${x}/BundleAnalyzer.json`);
+            fs.readFile(pth, (error,jsonData) =>{
+                let json = JSON.parse(jsonData);
+                resolve({name: x, size: json[0].statSize/1000});
+            })
+        })        
+    }));
+    sizes.sort((a,b)=>b.size-a.size);        
+    fs.writeFileSync('generated/sizes.json', JSON.stringify(sizes, null, 4));    
+}
+
 export let prettyPrint = gulp.parallel(prettyPrintJSONFiles());
 export let process = gulp.parallel(processWidgets());
+export let metadata = buildMetadata;
 
-export default gulp.series(process, prettyPrint);
+export default gulp.series(process, prettyPrint, metadata);

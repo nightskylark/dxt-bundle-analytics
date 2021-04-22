@@ -7,7 +7,7 @@
         {
             "type": "pwa-node",
             "request": "launch",
-            "args": ["pretty-print"],
+            "args": ["metadata"],
             "name": "Launch Program",
             "console": "integratedTerminal",
             "skipFiles": [

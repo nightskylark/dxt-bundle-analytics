@@ -1,0 +1,290 @@
+[
+    {
+        "name": "Gantt",
+        "size": 4794.752
+    },
+    {
+        "name": "FileManager",
+        "size": 4716.152
+    },
+    {
+        "name": "DataGrid",
+        "size": 4255.798
+    },
+    {
+        "name": "TreeList",
+        "size": 3861.662
+    },
+    {
+        "name": "Scheduler",
+        "size": 3816.074
+    },
+    {
+        "name": "HtmlEditor",
+        "size": 2845.455
+    },
+    {
+        "name": "PivotGrid",
+        "size": 2354.461
+    },
+    {
+        "name": "Chart",
+        "size": 2221.534
+    },
+    {
+        "name": "PolarChart",
+        "size": 2105.061
+    },
+    {
+        "name": "FilterBuilder",
+        "size": 1973.904
+    },
+    {
+        "name": "Form",
+        "size": 1970.851
+    },
+    {
+        "name": "RangeSelector",
+        "size": 1933.958
+    },
+    {
+        "name": "PivotGridFieldChooser",
+        "size": 1862.711
+    },
+    {
+        "name": "DateBox",
+        "size": 1784.696
+    },
+    {
+        "name": "PieChart",
+        "size": 1750.577
+    },
+    {
+        "name": "BarGauge",
+        "size": 1588.504
+    },
+    {
+        "name": "Sparkline",
+        "size": 1584.42
+    },
+    {
+        "name": "LinearGauge",
+        "size": 1526.455
+    },
+    {
+        "name": "CircularGauge",
+        "size": 1524.985
+    },
+    {
+        "name": "TagBox",
+        "size": 1492.543
+    },
+    {
+        "name": "Lookup",
+        "size": 1451.705
+    },
+    {
+        "name": "SelectBox",
+        "size": 1442.725
+    },
+    {
+        "name": "VectorMap",
+        "size": 1441.441
+    },
+    {
+        "name": "Autocomplete",
+        "size": 1421.315
+    },
+    {
+        "name": "Toolbar",
+        "size": 1384.11
+    },
+    {
+        "name": "SlideOut",
+        "size": 1375.791
+    },
+    {
+        "name": "List",
+        "size": 1350.277
+    },
+    {
+        "name": "Funnel",
+        "size": 1328.187
+    },
+    {
+        "name": "TreeMap",
+        "size": 1292.915
+    },
+    {
+        "name": "Sankey",
+        "size": 1280.683
+    },
+    {
+        "name": "Menu",
+        "size": 1227.3
+    },
+    {
+        "name": "ColorBox",
+        "size": 1171.935
+    },
+    {
+        "name": "Bullet",
+        "size": 1153.927
+    },
+    {
+        "name": "TreeView",
+        "size": 1138.447
+    },
+    {
+        "name": "DropDownBox",
+        "size": 1039.75
+    },
+    {
+        "name": "ContextMenu",
+        "size": 1035.546
+    },
+    {
+        "name": "RangeSlider",
+        "size": 975.207
+    },
+    {
+        "name": "Slider",
+        "size": 962.74
+    },
+    {
+        "name": "ActionSheet",
+        "size": 910.994
+    },
+    {
+        "name": "TabPanel",
+        "size": 909.019
+    },
+    {
+        "name": "Tooltip",
+        "size": 903.048
+    },
+    {
+        "name": "Popover",
+        "size": 900.911
+    },
+    {
+        "name": "TileView",
+        "size": 892.139
+    },
+    {
+        "name": "Popup",
+        "size": 883.585
+    },
+    {
+        "name": "RadioGroup",
+        "size": 850.64
+    },
+    {
+        "name": "NavBar",
+        "size": 836.083
+    },
+    {
+        "name": "Tabs",
+        "size": 833.865
+    },
+    {
+        "name": "Calendar",
+        "size": 773.647
+    },
+    {
+        "name": "NumberBox",
+        "size": 769.339
+    },
+    {
+        "name": "TextArea",
+        "size": 735.592
+    },
+    {
+        "name": "TextBox",
+        "size": 717.323
+    },
+    {
+        "name": "FileUploader",
+        "size": 705.213
+    },
+    {
+        "name": "ValidationGroup",
+        "size": 698.458
+    },
+    {
+        "name": "Gallery",
+        "size": 697.272
+    },
+    {
+        "name": "ValidationSummary",
+        "size": 685.628
+    },
+    {
+        "name": "MultiView",
+        "size": 685.115
+    },
+    {
+        "name": "Accordion",
+        "size": 678.035
+    },
+    {
+        "name": "ScrollView",
+        "size": 644.333
+    },
+    {
+        "name": "ResponsiveBox",
+        "size": 634.531
+    },
+    {
+        "name": "Switch",
+        "size": 616.259
+    },
+    {
+        "name": "Box",
+        "size": 614.748
+    },
+    {
+        "name": "CheckBox",
+        "size": 601.631
+    },
+    {
+        "name": "ProgressBar",
+        "size": 600.53
+    },
+    {
+        "name": "LoadPanel",
+        "size": 523.19
+    },
+    {
+        "name": "Drawer",
+        "size": 486.177
+    },
+    {
+        "name": "Button",
+        "size": 480.057
+    },
+    {
+        "name": "Toast",
+        "size": 477.357
+    },
+    {
+        "name": "DeferRendering",
+        "size": 414.01
+    },
+    {
+        "name": "Map",
+        "size": 404.906
+    },
+    {
+        "name": "SlideOutView",
+        "size": 393.029
+    },
+    {
+        "name": "LoadIndicator",
+        "size": 338.265
+    },
+    {
+        "name": "Resizable",
+        "size": 321.18
+    }
+]
