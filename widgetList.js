@@ -73,6 +73,11 @@ const all = {
     VectorMap: 'devextreme/viz/vector_map'
 };
 
+all[Symbol.iterator] = function* () {
+    for(let prop in all)
+        yield prop;
+}
+
 const dropDownEditors = {
     dxAutocomplete: 'devextreme/ui/autocomplete',
     dxColorBox: 'devextreme/ui/color_box',
@@ -84,6 +89,11 @@ const dropDownEditors = {
     dxDropDownEditor: 'devextreme/ui/drop_down_editor/ui.drop_down_editor.js',
     dxDropDownList: 'devextreme/ui/drop_down_editor/ui.drop_down_list.js',
 };
+
+dropDownEditors[Symbol.iterator] = function* () {
+    for(let prop in dropDownEditors)
+        yield prop;
+}
 
 export default {
     all,

@@ -6,6 +6,7 @@ import webpack from 'webpack-stream';
 import rename from 'gulp-rename';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import StatoscopeWebpackPlugin from '@statoscope/ui-webpack'
+import jsonFormat from 'gulp-json-format';
 
 let __dirname = path.resolve()
 
@@ -70,4 +71,18 @@ function processWidgets(){
     return result;
 }
 
-export default gulp.task('default', gulp.series(processWidgets()))
+function prettyPrintJSONFiles(){
+    return [...widgets.all].map(x=>done=>
+        gulp.src(`generated/reports/${x}/*.json`)
+        .pipe(jsonFormat(4))
+        .pipe(gulp.dest(`generated/reports/${x}/`))
+        .pipe(rename(x=>{            
+        }))
+        .on('end', done),        
+    );
+}
+
+export let prettyPrint = gulp.parallel(prettyPrintJSONFiles());
+export let process = gulp.parallel(processWidgets());
+
+export default gulp.series(process, prettyPrint);
