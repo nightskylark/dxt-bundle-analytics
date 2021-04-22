@@ -5,6 +5,7 @@ import through from 'through2';
 import webpack from 'webpack-stream';
 import rename from 'gulp-rename';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
+import StatoscopeWebpackPlugin from '@statoscope/ui-webpack'
 
 let __dirname = path.resolve()
 
@@ -18,22 +19,40 @@ function rebase(content, name){
         callback(null, transformedFile);
       });        
 }
+function prepareWebpackPlugins(widget){    
+    return [
+        new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            reportFilename: `generated/reports/${widget}/BundleAnalyzer.html`,
+            openAnalyzer: false,
+            generateStatsFile: true,
+            statsFilename: `generated/reports/${widget}/BundleAnalyzerStats.json`,                    
+        }),
+        new BundleAnalyzerPlugin({
+            analyzerMode: 'json',
+            reportFilename: `generated/reports/${widget}/BundleAnalyzer.json`,
+            openAnalyzer: false,
+            generateStatsFile: false,            
+        }),
+        new StatoscopeWebpackPlugin({
+            saveTo: `generated/reports/${widget}/Statoscope.html`,
+            saveStatsTo: `generated/reports/${widget}/StatoscopeStats.json`,
+            statsOptions: { /* any webpack stats options */ },
+            //additionalStats: ['path/to/any/stats.json'],
+            watchMode: true,
+            name: widget,
+            open: false
+          })                                  
+    ];
+}
 
-function processWidget(widget){
+function processWidget(widget){    
     return done => {
         gulp.src('./stubs/stub.js')
         .pipe(rebase(`import STUB_NAME from '${widgets.all[widget]}'`, widget))                
         .pipe(gulp.dest('generated/indices')) 
         .pipe(webpack({
-            plugins: [
-                new BundleAnalyzerPlugin({
-                    analyzerMode: 'static',
-                    reportFilename: `generated/reports/${widget}/analyzer.html`,
-                    openAnalyzer: false,
-                    generateStatsFile: true,
-                    statsFilename: `generated/reports/${widget}/data.json`,                    
-                })
-            ]
+            plugins: prepareWebpackPlugins(widget)
         }))
         .pipe(rename(x=>{
             x.basename = widget;
@@ -46,8 +65,7 @@ function processWidget(widget){
 function processWidgets(){
     let result = [];
     for(let widget in widgets.all){
-        result.push(processWidget(widget));
-        break;
+        result.push(processWidget(widget));        
     }
     return result;
 }
