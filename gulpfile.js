@@ -75,9 +75,7 @@ function prettyPrintJSONFiles(){
     return [...widgets.all].map(x=>done=>
         gulp.src(`generated/reports/${x}/*.json`)
         .pipe(jsonFormat(4))
-        .pipe(gulp.dest(`generated/reports/${x}/`))
-        .pipe(rename(x=>{            
-        }))
+        .pipe(gulp.dest(`generated/reports/${x}/`))        
         .on('end', done),        
     );
 }
