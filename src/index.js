@@ -10,7 +10,7 @@ $.getJSON('../generated/sizes.json', (data) => {
           onSelectionChanged: (data) => {
                const name = data.addedItems[0].name;
                const items = [{
-                    title: 'Bandle Analyzer', 
+                    title: 'Bundle Analyzer', 
                     text: `../generated/reports/${ name }/BundleAnalyzer.html`
                }, {
                     title: 'Statoscope',
