@@ -185,4 +185,24 @@ export async function buildSankeyData(done){
     await Promise.all(gulpTasks.map(x=>new Promise(x)));
 }
 
-export default gulp.series(processWidgets, prettyPrintJSONFiles, buildMetadata, buildSankeyData);
+async function removeDirectory(dirpath) {
+    await new Promise((resolve, reject) => {glob(dirpath+'/*.*', (err, files)=> {
+            files.forEach(fs.unlinkSync);
+            resolve();
+        });
+    });
+    fs.rmdirSync(dirpath);
+}
+
+export async function performCleanup(){    
+    await removeDirectory('./generated/bundles')
+    await removeDirectory('./generated/indices')
+    await new Promise((resolve, reject)=>{
+        glob('./generated/reports/*/*.json', (err, files)=>{
+            files.forEach(fs.unlinkSync);
+            resolve();
+        })
+    });
+}
+
+export default gulp.series(processWidgets, prettyPrintJSONFiles, buildMetadata, buildSankeyData, performCleanup);
