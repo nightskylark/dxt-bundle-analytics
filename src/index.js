@@ -1,3 +1,4 @@
+localStorage.setItem('wba.showConcatenatedModulesContent', 'true');
 $.getJSON('../generated/sizes.json', (data) => {
      $("#list").dxList({
           dataSource: data,
