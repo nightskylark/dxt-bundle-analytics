@@ -77,7 +77,7 @@ function prettyPrintJSONFiles(){
     );
 }
 
-async function buildMetadata(){
+export async function buildMetadata(){
     let sizes = await Promise.all([...widgets.all].map(x=>{
         return new Promise((resolve, reject)=>{
             let pth = path.resolve(__dirname,`generated/reports/${x}/BundleAnalyzer.json`);
@@ -91,8 +91,74 @@ async function buildMetadata(){
     fs.writeFileSync('generated/sizes.json', JSON.stringify(sizes, null, 4));    
 }
 
+function processSizes(sizes){
+    sizes = sizes  
+    .filter(x=>{        
+        if(x.source == 'generated/indices'
+        || x.target == 'generated/indices'
+        || x.target == '@babel/runtime/helpers/esm'
+        || x.source == '@babel/runtime/helpers/esm'
+        // || x.source == 'node_modules'
+        // || x.target == 'node_modules'
+        )
+            return false;
+        
+        return true;
+    })        
+    ;
+sizes = [...new Set(sizes)];
+let dataString = JSON.stringify(sizes, null, 4)
+    .replace(/"source":/g, 'source:')
+    .replace(/"weight":/g, 'weight:')
+    .replace(/"target":/g, 'target:')
+    .replace(new RegExp('./node_modules/devextreme/esm', 'g'), '')
+    ;
+dataString = 'var data = ' + dataString;
+return dataString;
+}
+
+export async function buildSankeyData(done){
+    let sizes = await Promise.all([...widgets.all].map(x=>{
+        return new Promise((resolve, reject)=>{
+            let pth = path.resolve(__dirname,`generated/reports/${x}/StatoscopeStats.json`);
+            fs.readFile(pth, (error,jsonData) =>{
+                let json = JSON.parse(jsonData);                
+                let collection = json
+                .modules
+                .map(x=>x.modules)
+                .filter(x=>!!x)
+                .reduce((accumulator, current)=>[...accumulator, ... current], [])    
+                .map(x=>({
+                    source: x.issuerName,
+                    weight: x.size,
+                    target: x.name
+                }))
+                resolve({name: x, collection: collection});
+            })
+        })        
+    }));
+    let items = {};
+    sizes.reduce((acc, elem)=>items[elem.name] = elem.collection, items);
+    
+    //fs.writeFileSync('sankeyView/data.js', dataString);    
+
+    let gulpTasks = [...widgets.all].map(x=>(resolve, reject)=>
+        gulp.src(`sankeyView/*`)
+        .pipe(through.obj((vinylFile, encoding, callback) => {        
+            if(vinylFile.path.indexOf('data.js')<0)
+                return callback(null, vinylFile);
+            
+            var transformedFile = vinylFile.clone();    
+            transformedFile.contents = Buffer.from(processSizes(items[x]));            
+            callback(null, transformedFile);
+          }))
+        .pipe(gulp.dest(`generated/reports/${x}/sankeyView`))        
+        .on('end', x=>resolve()),        
+    );
+    await Promise.all(gulpTasks.map(x=>new Promise(x)));
+}
+
 export let prettyPrint = gulp.parallel(prettyPrintJSONFiles());
 export let process = gulp.parallel(processWidgets());
-export let metadata = buildMetadata;
 
-export default gulp.series(process, prettyPrint, metadata);
+export default gulp.series(process, prettyPrint, buildMetadata);
