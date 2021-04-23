@@ -161,4 +161,4 @@ export async function buildSankeyData(done){
 export let prettyPrint = gulp.parallel(prettyPrintJSONFiles());
 export let process = gulp.parallel(processWidgets());
 
-export default gulp.series(process, prettyPrint, buildMetadata);
+export default gulp.series(process, prettyPrint, buildMetadata, buildSankeyData);
