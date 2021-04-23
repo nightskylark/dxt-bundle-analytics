@@ -1,5 +1,5 @@
 localStorage.setItem('wba.showConcatenatedModulesContent', 'true');
-$.getJSON('../generated/sizes.json', (data) => {
+$.getJSON('./generated/sizes.json', (data) => {
      $("#list").dxList({
           dataSource: data,
           displayExpr: (item) => {
@@ -11,13 +11,13 @@ $.getJSON('../generated/sizes.json', (data) => {
                const name = data.addedItems[0].name;
                const items = [{
                     title: 'Bundle Analyzer', 
-                    text: `../generated/reports/${ name }/BundleAnalyzer.html`
+                    text: `./generated/reports/${ name }/BundleAnalyzer.html`
                }, {
                     title: 'Statoscope',
-                    text: `../generated/reports/${ name }/Statoscope.html`
+                    text: `./generated/reports/${ name }/Statoscope.html`
                }, {
                     title: 'SankeyView',
-                    text: `../generated/reports/${ name }/sankeyView/index.html`
+                    text: `./generated/reports/${ name }/sankeyView/index.html`
                }];
                $("#tabpanel").dxTabPanel({
                     dataSource: items,
