@@ -3,67 +3,22 @@
      <head>
           <meta charset="utf-8" />
           <title>Component Analyzer App</title>
-          <!-- JQuery -->
+
           <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
           
-          <!-- DevExtreme themes -->
           <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/20.2.6/css/dx.common.css">
           <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/20.2.6/css/dx.light.css">
-          
-          <!-- DevExtreme library -->
+
+          <link rel="stylesheet" href="/src/index.css">
+
           <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/20.2.6/js/dx.all.js"></script>
      </head>
      <body class="dx-viewport">
-          <div class="dx-fieldset">
-               <div class="dx-fieldset-header">Analytics</div>
-               <div class="dx-field">
-                    <div class="dx-field-label" style="width: 100%">Components</div>
-                    <div id="list-container" style="float: left; width: 300px">
-                         <div id="list"></div>
-                    </div>
-                    <div id="tabPanel-container" style="float: left; width: calc(100% - 300px); height: 100%;">
-                         <div id="tabpanel">     
-                         </div>
-                    </div>
-               </div>
+          <div id="list-container" class="widget-container list-container">
+               <div id="list"></div>
           </div>
-         
-          <script>
-               $.getJSON('../generated/sizes.json', (data) => {
-                    $("#list").dxList({
-                         dataSource: data,
-                         displayExpr: (item) => {
-                              return item.name + ': ' + Math.round(item.size) + ' Kb';
-                         },
-                         selectionMode: 'single',
-                         showSelectionControls: true,
-                         onSelectionChanged: (data) => {
-                              const name = data.addedItems[0].name;
-                              const items = [{
-                                   title: 'Bandle Analyzer', 
-                                   text: `../generated/reports/${ name }/BundleAnalyzer.html`
-                              }, {
-                                   title: 'Statoscope',
-                                   text: `../generated/reports/${ name }/Statoscope.html`
-                              }, {
-                                   title: 'SankeyView',
-                                   text: `../generated/reports/${ name }/sankeyView/index.html`
-                              }];
-                              $("#tabpanel").dxTabPanel({
-                                   dataSource: items,
-                                   selectedIndex: 0,
-                                   swipeEnabled: true,
-                                   loop: true,
-                                   itemTemplate: function (data, index, element) {
-                                        const $iframe = $("<iframe>").attr('src', data.text);
-                                        element.append($iframe);
-                                   }
-                              });
-                         },
-                    });
-                    
-               });
-                                   
+          <div id="tabpanel" class="widget-container tabpanel"></div>
+          <script src="/src/index.js">
           </script>
      </body>
 </html>
