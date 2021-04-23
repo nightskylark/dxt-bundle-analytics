@@ -8,6 +8,7 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import StatoscopeWebpackPlugin from '@statoscope/ui-webpack'
 import jsonFormat from 'gulp-json-format';
 import fs from 'fs';
+import glob from 'glob';
 
 let __dirname = path.resolve()
 
@@ -21,64 +22,91 @@ function rebase(content, name){
         callback(null, transformedFile);
       });        
 }
-function prepareWebpackPlugins(widget){    
+function prepareWebpackPlugins(bundle){    
     return [
         new BundleAnalyzerPlugin({
             analyzerMode: 'static',
-            reportFilename: `generated/reports/${widget}/BundleAnalyzer.html`,
+            reportFilename: `generated/reports/${bundle}/BundleAnalyzer.html`,
             openAnalyzer: false,
             generateStatsFile: true,
-            statsFilename: `generated/reports/${widget}/BundleAnalyzerStats.json`,                    
+            statsFilename: `generated/reports/${bundle}/BundleAnalyzerStats.json`,                    
         }),
         new BundleAnalyzerPlugin({
             analyzerMode: 'json',
-            reportFilename: `generated/reports/${widget}/BundleAnalyzer.json`,
+            reportFilename: `generated/reports/${bundle}/BundleAnalyzer.json`,
             openAnalyzer: false,
             generateStatsFile: false,            
         }),
         new StatoscopeWebpackPlugin({
-            saveTo: `generated/reports/${widget}/Statoscope.html`,
-            saveStatsTo: `generated/reports/${widget}/StatoscopeStats.json`,
+            saveTo: `generated/reports/${bundle}/Statoscope.html`,
+            saveStatsTo: `generated/reports/${bundle}/StatoscopeStats.json`,
             statsOptions: { /* any webpack stats options */ },
             //additionalStats: ['path/to/any/stats.json'],
             watchMode: true,
-            name: widget,
+            name: bundle,
             open: false
           })                                  
     ];
 }
 
-function processWidget(widget){    
-    return done => {
-        gulp.src('./stubs/stub.js')
-        .pipe(rebase(`import STUB_NAME from '${widgets.all[widget]}'`, widget))                
-        .pipe(gulp.dest('generated/indices')) 
+export async function buildIndices(){
+    await Promise.all([...widgets.all].map(widget=>
+        new Promise((resolve, reject) =>{
+            gulp.src('./stubs/stub.js')
+            .pipe(rebase(`import STUB_NAME from '${widgets.all[widget]}'`, widget))
+            .pipe(gulp.dest('generated/indices'))
+            .on('end', ()=>resolve())
+        })));
+}
+export async function copyStubsToIndices(){
+    return new Promise((resolve, reject)=>{
+        gulp.src('./predefined/*.js')
+        .pipe(gulp.dest('generated/indices'))
+        .on('end', ()=>resolve());
+    })    
+}
+async function getBundleNames(){
+    return await new Promise((resolve,reject)=>{
+        glob('./generated/indices/*.js', (err, files)=>{            
+            resolve(files.map(x=>path.basename(x).slice(0, -path.extname(x).length)));
+        });
+    });
+}
+
+function processBundle(bundle) {    
+    return new Promise((resolve, reject)  => {
+        gulp.src(`./generated/indices/${bundle}.js`)
         .pipe(webpack({
-            plugins: prepareWebpackPlugins(widget)
+            plugins: prepareWebpackPlugins(bundle)
         }))
         .pipe(rename(x=>{
-            x.basename = widget;
+            x.basename = bundle;
         }))
         .pipe(gulp.dest('generated/bundles'))        
-        .on('end', ()=>done());
-    }
+        .on('end', ()=>resolve());
+    });
 }
 
-function processWidgets(){
-    return [...widgets.all].map(processWidget);    
+async function processWidgets(){
+    await buildIndices();
+    await copyStubsToIndices();
+    let bundles = await getBundleNames();
+    await Promise.all(bundles.map(processBundle));     
 }
 
-function prettyPrintJSONFiles(){
-    return [...widgets.all].map(x=>done=>
-        gulp.src(`generated/reports/${x}/*.json`)
+export async function prettyPrintJSONFiles(){
+    let bundles = await getBundleNames();
+    await Promise.all(bundles.map(bundle=>new Promise((resolve, reject) =>
+        gulp.src(`generated/reports/${bundle}/*.json`)
         .pipe(jsonFormat(4))
-        .pipe(gulp.dest(`generated/reports/${x}/`))        
-        .on('end', done),        
-    );
+        .pipe(gulp.dest(`generated/reports/${bundle}/`))        
+        .on('end', ()=>resolve()),        
+    )))    
 }
 
 export async function buildMetadata(){
-    let sizes = await Promise.all([...widgets.all].map(x=>{
+    let bundles = await getBundleNames();
+    let sizes = await Promise.all(bundles.map(x=>{
         return new Promise((resolve, reject)=>{
             let pth = path.resolve(__dirname,`generated/reports/${x}/BundleAnalyzer.json`);
             fs.readFile(pth, (error,jsonData) =>{
@@ -118,7 +146,8 @@ return dataString;
 }
 
 export async function buildSankeyData(done){
-    let sizes = await Promise.all([...widgets.all].map(x=>{
+    let bundles = await getBundleNames();
+    let sizes = await Promise.all(bundles.map(x=>{
         return new Promise((resolve, reject)=>{
             let pth = path.resolve(__dirname,`generated/reports/${x}/StatoscopeStats.json`);
             fs.readFile(pth, (error,jsonData) =>{
@@ -139,11 +168,9 @@ export async function buildSankeyData(done){
     }));
     let items = {};
     sizes.reduce((acc, elem)=>items[elem.name] = elem.collection, items);
-    
-    //fs.writeFileSync('sankeyView/data.js', dataString);    
 
-    let gulpTasks = [...widgets.all].map(x=>(resolve, reject)=>
-        gulp.src(`sankeyView/*`)
+    let gulpTasks = bundles.map(x=>(resolve, reject)=>
+        gulp.src(`stubs/sankeyView/*`)
         .pipe(through.obj((vinylFile, encoding, callback) => {        
             if(vinylFile.path.indexOf('data.js')<0)
                 return callback(null, vinylFile);
@@ -158,7 +185,4 @@ export async function buildSankeyData(done){
     await Promise.all(gulpTasks.map(x=>new Promise(x)));
 }
 
-export let prettyPrint = gulp.parallel(prettyPrintJSONFiles());
-export let process = gulp.parallel(processWidgets());
-
-export default gulp.series(process, prettyPrint, buildMetadata, buildSankeyData);
+export default gulp.series(processWidgets, prettyPrintJSONFiles, buildMetadata, buildSankeyData);
