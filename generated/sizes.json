@@ -1,11 +1,63 @@
 [
     {
+        "name": "HIDDEN-datagrid-scheduler-treelist-without-editing",
+        "size": 6069.34
+    },
+    {
+        "name": "SCHEDULER-scheduler-and-data-grid",
+        "size": 5966.824
+    },
+    {
+        "name": "CHARTS-data-grid-and-chart",
+        "size": 5573.71
+    },
+    {
+        "name": "SCHEDULER-scheduler-and-tree-list",
+        "size": 5572.692
+    },
+    {
+        "name": "DATAGRID-grid-and-html-editor",
+        "size": 5082.949
+    },
+    {
         "name": "Gantt",
         "size": 4794.752
     },
     {
         "name": "FileManager",
         "size": 4716.152
+    },
+    {
+        "name": "PIVOT-pivot-and-data-grid",
+        "size": 4641.748
+    },
+    {
+        "name": "HIDDEN-datagrid-treelist-without-dragdrop",
+        "size": 4358.393
+    },
+    {
+        "name": "DATAGRID-grid-and-fileuploader",
+        "size": 4322.421
+    },
+    {
+        "name": "OTHER-accordion-and-datagrid",
+        "size": 4269.815
+    },
+    {
+        "name": "DROPDOWN-grid-in-dropdown",
+        "size": 4265.486
+    },
+    {
+        "name": "DATAGRID-grid-and-popover-tooltip",
+        "size": 4258.117
+    },
+    {
+        "name": "DATAGRID-grid-and-popup",
+        "size": 4255.932
+    },
+    {
+        "name": "HIDDEN-datagrid-without-filtering",
+        "size": 4255.864
     },
     {
         "name": "DataGrid",
@@ -16,16 +68,44 @@
         "size": 3861.662
     },
     {
+        "name": "SCHEDULER-scheduler-and-list",
+        "size": 3816.246
+    },
+    {
         "name": "Scheduler",
         "size": 3816.074
+    },
+    {
+        "name": "CHARTS-data-grid-chart-popup",
+        "size": 3672.414
+    },
+    {
+        "name": "CHARTS-pivot-and-chart",
+        "size": 3672.331
+    },
+    {
+        "name": "CHARTS-chart-and-selectbox-datebox",
+        "size": 3405.335
     },
     {
         "name": "HtmlEditor",
         "size": 2845.455
     },
     {
+        "name": "PIVOT-pivot-and-selectbox-tagbox",
+        "size": 2496.911
+    },
+    {
         "name": "PivotGrid",
         "size": 2354.461
+    },
+    {
+        "name": "CHARTS-chart-and-range-selector",
+        "size": 2320.439
+    },
+    {
+        "name": "LOGINFORM-multiple-editors-without-form",
+        "size": 2320.439
     },
     {
         "name": "Chart",
@@ -38,6 +118,10 @@
     {
         "name": "FilterBuilder",
         "size": 1973.904
+    },
+    {
+        "name": "LOGINFFORM-textBox-and-button",
+        "size": 1970.994
     },
     {
         "name": "Form",
@@ -76,12 +160,36 @@
         "size": 1524.985
     },
     {
+        "name": "NAVIGATION-button-toolbar-drawer-treeview",
+        "size": 1514.848
+    },
+    {
+        "name": "DROPDOWN-dropdownbox-and-tagbox",
+        "size": 1503.412
+    },
+    {
+        "name": "DROPDOWN-tagbox-and-selectbox",
+        "size": 1503.411
+    },
+    {
         "name": "TagBox",
         "size": 1492.543
     },
     {
+        "name": "NAVIGATION-toolbar-listview-treeview",
+        "size": 1477.31
+    },
+    {
+        "name": "DROPDOWN-dropdownbox-and-selectbox",
+        "size": 1453.596
+    },
+    {
         "name": "Lookup",
         "size": 1451.705
+    },
+    {
+        "name": "LOGINFORM-simple-and-popup",
+        "size": 1443.046
     },
     {
         "name": "SelectBox",
@@ -94,6 +202,18 @@
     {
         "name": "Autocomplete",
         "size": 1421.315
+    },
+    {
+        "name": "DROPDOWN-list-in-dropdown",
+        "size": 1399.122
+    },
+    {
+        "name": "NAVIGATION-drawer-list-button",
+        "size": 1387.878
+    },
+    {
+        "name": "HIDDEN-toolbar-with-simple-items",
+        "size": 1384.235
     },
     {
         "name": "Toolbar",
@@ -116,8 +236,16 @@
         "size": 1292.915
     },
     {
+        "name": "NAVIGATION-treeview-tabpanel-tabs-menu",
+        "size": 1287.749
+    },
+    {
         "name": "Sankey",
         "size": 1280.683
+    },
+    {
+        "name": "DROPDOWN-treeView-in-dropdown",
+        "size": 1229.869
     },
     {
         "name": "Menu",
@@ -134,6 +262,10 @@
     {
         "name": "TreeView",
         "size": 1138.447
+    },
+    {
+        "name": "OTHER-accordion-and-editors",
+        "size": 1069.261
     },
     {
         "name": "DropDownBox",
@@ -206,6 +338,10 @@
     {
         "name": "TextBox",
         "size": 717.323
+    },
+    {
+        "name": "OTHER-kanban-demo",
+        "size": 708.012
     },
     {
         "name": "FileUploader",
