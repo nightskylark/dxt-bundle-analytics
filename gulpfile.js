@@ -108,10 +108,10 @@ export async function buildMetadata(){
     let bundles = await getBundleNames();
     let sizes = await Promise.all(bundles.map(x=>{
         return new Promise((resolve, reject)=>{
-            let pth = path.resolve(__dirname,`generated/reports/${x}/BundleAnalyzer.json`);
+            let pth = path.resolve(__dirname,`generated/reports/${x}/BundleAnalyzerStats.json`);
             fs.readFile(pth, (error,jsonData) =>{
                 let json = JSON.parse(jsonData);
-                resolve({name: x, size: json[0].statSize/1000});
+                resolve({name: x, size: Math.round(json.assets[0].size/1000)});
             })
         })        
     }));
